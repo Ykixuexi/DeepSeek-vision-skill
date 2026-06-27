@@ -46,8 +46,8 @@ AI:    这张网页采用了深色主题设计，主色调为 #1a1a2e 深蓝紫�
 ### 1. 克隆项目
 
 ```bash
-git clone https://github.com/你的用户名/deep-vision-skill.git
-cd deep-vision-skill
+git clone https://github.com/Ykixuexi/DeepSeek-vision-skill.git
+cd DeepSeek-vision-skill
 ```
 
 ### 2. 配置 API Key
