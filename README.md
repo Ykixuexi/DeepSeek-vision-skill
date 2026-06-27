@@ -19,7 +19,7 @@
 
 传统方案用 `python -c` → `run_command` 调 API → 触发 Reasonix 的安全确认弹窗。
 
-本方案：**MCP server 常驻后台，网络请求发生在 server 进程内部**，AI 只是调用 MCP tool（无 `run_command`），因此**零弹窗、用户无感**。
+本方案：**网络请求发生在 MCP server 进程内部**（Reasonix 自动管理其生命周期），AI 只是调用 MCP tool（无 `run_command`），因此**零弹窗、用户无感**。
 
 ```
 用户发图 → AI 调 MCP tool analyze_screenshot → MCP Server → 千问 API → 返回结果
