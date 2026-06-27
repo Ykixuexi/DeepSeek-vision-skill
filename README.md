@@ -160,6 +160,47 @@ qwen-vision-mcp/
 
 全程**无 `run_command`**，**无确认弹窗**。
 
+## 平台兼容性
+
+`vision_server.py` 是标准 MCP server，任何支持 MCP 的客户端都能用。
+
+| 客户端 | MCP Server | Skill | 说明 |
+|--------|:----------:|:-----:|------|
+| **Reasonix** | ✅ | ✅ | 原生支持，Skill 开箱即用 |
+| **Claude Code** | ✅ | 🟡 | MCP 可用，需手动写 Custom Instructions 替代 Skill |
+| **Codex (OpenAI)** | ❌ | ❌ | 不支持 MCP 协议，无法接入 |
+
+### Claude Code 配置
+
+Claude Code 原生支持 MCP，只需在配置文件中注册 server：
+
+```json
+// .claude/mcp.json 或 claude_desktop_config.json
+{
+  "mcpServers": {
+    "vision": {
+      "command": "python",
+      "args": ["D:/projects/qwen-vision-mcp/vision_server.py"],
+      "env": {
+        "DASHSCOPE_API_KEY": "sk-your-key-here"
+      }
+    }
+  }
+}
+```
+
+配置后在对话中说 "analyze this screenshot with the vision tool" 即可触发。如需自动触发效果，可在 Claude Code 的 `CLAUDE.md` 中添加类似规则：
+
+```markdown
+# Vision Rule
+When the user attaches an image, call the MCP tool `analyze_screenshot` 
+with the image path and a relevant question. Do NOT use bash commands to call external APIs.
+```
+
+### Codex 为何不适配
+
+OpenAI Codex CLI 目前**不支持 MCP 协议**，因此无法注册外部 MCP server。如果 OpenAI 后续支持 MCP 或提供类似插件机制，本项目的 MCP server 可以直接复用。
+
 ## API 费用
 
 千问 VL Max 模型按 token 计费。一张典型截图（~500KB）约消耗 **0.01-0.03 元**。
